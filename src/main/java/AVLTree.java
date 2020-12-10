@@ -32,18 +32,14 @@ public class AVLTree <T extends Comparable<T>> extends AbstractSet<T> implements
         return closest != null && t.compareTo(closest.value) == 0;
     }
 
-    private int height(Node<T> node) {
-        return updateHeight(node);
-    }
-
-    private int updateHeight (Node<T> node) {
+    private int getHeight(Node<T> node) {
         if (node == null) return 0;
-        return 1 + Math.max(height(node.left),height(node.right));
+        return 1 + Math.max(getHeight(node.left), getHeight(node.right));
     }
 
     public boolean add(T value) {
         root = add(root, value);
-        size++;
+        if (contains(value)) size++;
         return contains(value);
     }
 
@@ -203,8 +199,8 @@ public class AVLTree <T extends Comparable<T>> extends AbstractSet<T> implements
 
     private Node<T> rebalanceTree (Node<T> node) {
         if (node.right != null) {
-            if (height(node.right) - height(node.left) == 2) {
-                if (height(node.right.left) <= height(node.right.right)) {
+            if (getHeight(node.right) - getHeight(node.left) == 2) {
+                if (getHeight(node.right.left) <= getHeight(node.right.right)) {
                     node = rotateLeftSmall(node);
                 } else {
                     node = rotateLeftLarge(node);
@@ -212,11 +208,10 @@ public class AVLTree <T extends Comparable<T>> extends AbstractSet<T> implements
             }
         }
         if (node.left != null) {
-            if (height(node.left) - height(node.right) == 2) {
-                if (height(node.left.right) <= height(node.left.left)) {
+            if (getHeight(node.left) - getHeight(node.right) == 2) {
+                if (getHeight(node.left.right) <= getHeight(node.left.left)) {
                     node = rotateRightSmall(node);
-                }
-                else {
+                } else {
                     node =  rotateRightLarge(node);
                 }
             }
