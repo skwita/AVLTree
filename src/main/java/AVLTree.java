@@ -422,7 +422,7 @@ public class AVLTree <T extends Comparable<T>> extends AbstractSet<T> implements
             }
 
             private void addLeftBranch(Node<T> n) {
-                if (n != null) {
+                if (n != null && check(n.value)) {
                     nodesStack.push(n);
                     addLeftBranch(n.left);
                 }
@@ -447,8 +447,7 @@ public class AVLTree <T extends Comparable<T>> extends AbstractSet<T> implements
             @Override
             public void remove() {
                 if (currentNode == null) throw new IllegalStateException();
-                AVLTree.this.remove(currentNode, currentNode.value);
-                currentNode = null;
+                avlTree.remove(currentNode, currentNode.value);
             }
 
         }

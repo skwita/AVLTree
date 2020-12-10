@@ -308,13 +308,27 @@ public class AVLTreeTest {
 
         SortedSet<Integer> subAvl = avl.subSet(10, 16);
 
-        assertEquals(4, subAvl.size());
-        assertFalse(subAvl.contains(5));
-        assertTrue(subAvl.contains(10));
-        assertTrue(subAvl.contains(13));
-        assertTrue(subAvl.contains(14));
-        assertTrue(subAvl.contains(15));
-        assertFalse(subAvl.contains(16));
+        Iterator<Integer> iterator1 = subAvl.iterator();
+        Iterator<Integer> iterator2 = subAvl.iterator();
+
+        while (iterator1.hasNext()) {
+            assertEquals(iterator2.next(), iterator1.next());
+        }
+
+        Integer value;
+        Integer[] values = new Integer[4];
+        subAvl.toArray(values);
+
+        ArrayList<Integer> list = new ArrayList<>();
+
+        Iterator<Integer> subAvlIterator = subAvl.iterator();
+        while (subAvlIterator.hasNext()) {
+            value = subAvlIterator.next();
+            list.add(value);
+            subAvlIterator.remove();
+        }
+        assertTrue(subAvl.isEmpty());
+        assertArrayEquals(values, list.toArray(new Integer[4]));
     }
 
     @Test
